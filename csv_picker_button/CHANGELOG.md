@@ -5,3 +5,7 @@
 ## [0.0.1-nullsafety.0] - 13.03.2021.
 
 * Using csv 5.0.0-nullsafety.0 so the package has to have a suffix to be published as preview
+
+## [0.0.2-nullsafety.0] - 13.03.2021.
+
+* Updating homepage url and version

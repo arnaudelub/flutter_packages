@@ -2,10 +2,13 @@
 /// [coma]: ','
 /// [semiColumn]: ';'
 /// [pipe]: '|'
-enum Separator { coma, semiColumn, pipe }
+enum Separator { coma, semiColumn, pipe, tab }
 
+/// Set the titles manually by passing a List<String> to title and set hasTitle to false
+/// or use the flag hasTitle = true to parse the first line as title.
+/// onJsonReceived will return a map with title of the column as key
+/// default separator is ',' [Separator.coma]
 class CsvConfiguration {
-  @deprecated
   final Separator separator;
   final bool hasTitle;
   final List<String> titles;
