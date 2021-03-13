@@ -12,15 +12,19 @@ jobs:
       - uses: subosito/flutter-action@v1.4.0
 
       - name: Install Dependencies
+        working-directory: ./csv_picker_button
         run: flutter packages get
 
       - name: Format
+        working-directory: ./csv_picker_button
         run: flutter format --set-exit-if-changed lib test
 
       - name: Analyze
+        working-directory: ./csv_picker_button
         run: flutter analyze lib test
 
       - name: Run tests
+        working-directory: ./csv_picker_button
         run: flutter test --no-pub --coverage --test-randomize-ordering-seed random
 
       - name: Check Code Coverage
