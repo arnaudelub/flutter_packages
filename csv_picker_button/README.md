@@ -1,14 +1,46 @@
 # csv_picker_button
 
-A new Flutter package project.
+A simple button to pick a csv file and parse it as String or Json
 
-## Getting Started
+# Use this package as a library
 
-This project is a starting point for a Dart
-[package](https://flutter.dev/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
+## 1. Depend on it
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+Add this to your package's pubspec.yaml file:
+
+```
+dependencies:
+  csv_picker_button: latest_version
+```
+
+### 2. Install it
+
+You can install packages from the command line:
+
+with Flutter:
+
+```
+$ flutter pub get
+```
+
+### 3. Import it
+
+Now in your Dart code, you can use:
+
+```
+import 'package:csv_picker_button/csv_picker_button.dart';
+```
+
+### 4. use it
+
+```
+CsvButton(
+  onJsonReceived: (Map<String, dynamic> data) => print("$data"),
+  child: Text('pick a csv')
+  );
+```
+
+# Dependencies
+
+[FilePicker](https://pub.dev/packages/file_picker)
+[csv](https://pub.dev/packages/csv/versions/5.0.0-nullsafety.0)
