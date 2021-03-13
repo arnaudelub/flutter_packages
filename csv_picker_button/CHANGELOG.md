@@ -9,3 +9,7 @@
 ## [0.0.2-nullsafety.0] - 13.03.2021.
 
 * Updating homepage url and version
+
+## [0.0.3-nullsafety.0] - 13.03.2021.
+
+* Updating README.md and version
