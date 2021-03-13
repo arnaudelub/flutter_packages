@@ -1,7 +1,6 @@
 name: csv_picker_button
 description: A TextButton that will open a file picker and parse the CSV.
 version: 0.0.1
-author: Arnaud Delubac
 homepage: https://pub.dev/publishers/idelub.com/packages
 
 environment:
