@@ -49,14 +49,14 @@ packages:
       name: csv
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.0.0-nullsafety.0"
+    version: "5.0.0"
   csv_picker_button:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "0.0.3-nullsafety.0"
+    version: "0.0.3"
   cupertino_icons:
     dependency: "direct main"
     description:

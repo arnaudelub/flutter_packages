@@ -1,6 +1,6 @@
 name: csv_picker_button
 description: A TextButton that will open a file picker and parse the CSV.
-version: 0.0.3-nullsafety.0
+version: 0.0.3
 homepage: https://github.com/arnaudelub/flutter_packages/tree/main/csv_picker_button
 
 environment:
@@ -12,7 +12,7 @@ dependencies:
     sdk: flutter
   file_picker: ^3.0.0
   rxdart: ^0.26.0
-  csv: ^5.0.0-nullsafety.0
+  csv: ^5.0.0
 
 dev_dependencies:
   flutter_test:
