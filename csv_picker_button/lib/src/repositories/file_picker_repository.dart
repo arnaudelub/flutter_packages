@@ -46,8 +46,10 @@ class FilePickerRepository implements IFilePickerRepository {
   Future<void> call() async {
     try {
       int lineCounter = 1;
-      final file = await FilePicker.platform
-          .pickFiles(allowedExtensions: ['csv'], withReadStream: true);
+      final file = await FilePicker.platform.pickFiles(
+          allowedExtensions: ['csv'],
+          withReadStream: true,
+          type: FileType.custom);
       if (file != null) {
         final stream = file.files.first.readStream!;
         stream

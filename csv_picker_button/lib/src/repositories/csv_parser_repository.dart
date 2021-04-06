@@ -57,8 +57,8 @@ class CsvParserRepository implements ICsvParserRepository {
   /// a map<String, dynamic> with the title from the column as the key
   @override
   Map<String, dynamic> stringToJson(String line) {
-    List<List<dynamic>> rowsAsListOfValues =
-        const CsvToListConverter().convert(line);
+    List<List<dynamic>> rowsAsListOfValues = const CsvToListConverter()
+        .convert(line, fieldDelimiter: separatorString);
 
     final listOfString = rowsAsListOfValues[0];
     final Map<String, dynamic> map = {};

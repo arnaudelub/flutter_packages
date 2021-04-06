@@ -1,3 +1,8 @@
+## [0.0.4] - 06.04.2021.
+
+* Fix issue [#1](https://github.com/arnaudelub/flutter_packages/issues/1), missing delimiter string in csvConvert().
+Also fixing mobile platform filePicker by adding FileType.custom
+
 ## [0.0.3] - 13.03.2021.
 
 * Updating csv dependencie to release version 5.0.0 and plugin version to release 0.0.3
