@@ -1,7 +1,12 @@
+## [0.0.6] - 06.04.2021.
+
+* Fixing CHANGLOG  markdown
+
 ## [0.0.5] - 06.04.2021.
 
 * Fixing typos
-###Breaking changes:
+
+**Breaking changes**:
 - Separator.coma => Separator.comma
 - Separator.semiColumn => Sepatator.semicolon
 
