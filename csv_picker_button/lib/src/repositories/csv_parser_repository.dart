@@ -29,13 +29,13 @@ class CsvParserRepository implements ICsvParserRepository {
   @override
   void call() {
     switch (csvConfiguration.separator) {
-      case Separator.coma:
+      case Separator.comma:
         separatorString = ',';
         break;
       case Separator.pipe:
         separatorString = '|';
         break;
-      case Separator.semiColumn:
+      case Separator.semicolon:
         separatorString = ';';
         break;
       case Separator.tab:

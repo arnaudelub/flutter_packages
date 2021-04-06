@@ -37,7 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: CsvButton(
             csvConfiguration: CsvConfiguration(
-                hasTitle: true, separator: Separator.semiColumn),
+                hasTitle: true, separator: Separator.semicolon),
             onJsonReceived: (data) {
               print(data);
             },

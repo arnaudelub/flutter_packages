@@ -1,3 +1,10 @@
+## [0.0.5] - 06.04.2021.
+
+* Fixing typos
+###Breaking changes:
+- Separator.coma => Separator.comma
+- Separator.semiColumn => Sepatator.semicolon
+
 ## [0.0.4] - 06.04.2021.
 
 * Fix issue [#1](https://github.com/arnaudelub/flutter_packages/issues/1), missing delimiter string in csvConvert().

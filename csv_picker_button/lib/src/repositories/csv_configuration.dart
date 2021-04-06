@@ -2,7 +2,7 @@
 /// [coma]: ','
 /// [semiColumn]: ';'
 /// [pipe]: '|'
-enum Separator { coma, semiColumn, pipe, tab }
+enum Separator { comma, semicolon, pipe, tab }
 
 /// Set the titles manually by passing a List<String> to title and set hasTitle to false
 /// or use the flag hasTitle = true to parse the first line as title.
@@ -14,7 +14,7 @@ class CsvConfiguration {
   final List<String> titles;
 
   CsvConfiguration(
-      {this.separator = Separator.coma,
+      {this.separator = Separator.comma,
       this.hasTitle = true,
       this.titles = const []})
       : assert((!hasTitle && titles.isNotEmpty) || (hasTitle && titles.isEmpty),
