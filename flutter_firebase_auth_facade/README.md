@@ -38,7 +38,7 @@ callbackUrl is required, you can find it in your firebase panel in the github si
 
 You can use injectable like this and inject it into your Bloc:
 
-```
+```dart
 import 'package:flutter_firebase_auth_facade/flutter_firebase_auth_facade.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
