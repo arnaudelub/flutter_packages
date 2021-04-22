@@ -58,4 +58,4 @@ CsvButton(
 # Dependencies
 
 - [FilePicker](https://pub.dev/packages/file_picker)
-- [csv](https://pub.dev/packages/csv/versions/5.0.0-nullsafety.0)
+- [csv](https://pub.dev/packages/csv/versions/5.0.0)
