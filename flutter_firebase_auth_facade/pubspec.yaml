@@ -16,6 +16,7 @@ dependencies:
   injectable: ^1.2.2
   freezed_annotation: ^0.14.1
   json_annotation: ^4.0.1
+  http: ^0.13.1
   #social Login
   google_sign_in: ^5.0.2
   sign_in_with_apple: ^3.0.0
@@ -33,7 +34,6 @@ dev_dependencies:
   freezed: ^0.14.1+2
   json_serializable: ^4.1.1
   mocktail: ^0.1.0
-  bloc_test: ^8.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
