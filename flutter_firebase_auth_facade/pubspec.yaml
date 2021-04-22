@@ -1,7 +1,8 @@
 name: flutter_firebase_auth_facade
 description: A package to add instantly the authentication methods from firebase
-version: 0.0.1
+version: 0.0.1-nullsafety.1
 author: arnaudelub
+homepage: https://github.com/arnaudelub/flutter_packages/tree/main/flutter_firebase_auth_facade
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
