@@ -8,7 +8,7 @@ A package to add Firebase authentication methods to your app
 
 Add this to your package's pubspec.yaml file:
 
-```
+```yaml
 dependencies:
   flutter_firebase_auth_facade: latest_version
 ```
@@ -19,7 +19,7 @@ You can install packages from the command line:
 
 with Flutter:
 
-```
+```bash
 $ flutter pub get
 ```
 
@@ -27,7 +27,7 @@ $ flutter pub get
 
 Now in your Dart code, you can use:
 
-```
+```dart
 import 'package:flutter_firebase_auth_facade/flutter_firebase_auth_facade.dart';
 ```
 
