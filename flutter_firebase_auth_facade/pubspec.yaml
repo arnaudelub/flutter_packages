@@ -29,7 +29,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build_runner:
+  build_runner: ^2.0.1
   very_good_analysis: ^2.0.0
   freezed: ^0.14.1+2
   json_serializable: ^4.1.1
