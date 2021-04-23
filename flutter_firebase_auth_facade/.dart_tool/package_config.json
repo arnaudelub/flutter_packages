@@ -212,12 +212,6 @@
       "languageVersion": "2.12"
     },
     {
-      "name": "firebase_dynamic_links",
-      "rootUri": "file:///home/idelub/.pub-cache/hosted/pub.dartlang.org/firebase_dynamic_links-2.0.1",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
       "name": "fixnum",
       "rootUri": "file:///home/idelub/.pub-cache/hosted/pub.dartlang.org/fixnum-1.0.0",
       "packageUri": "lib/",
@@ -560,6 +554,24 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "uni_links2",
+      "rootUri": "file:///home/idelub/.pub-cache/hosted/pub.dartlang.org/uni_links2-0.6.0+2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "uni_links2_platform_interface",
+      "rootUri": "file:///home/idelub/.pub-cache/hosted/pub.dartlang.org/uni_links2_platform_interface-1.0.0+2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "uni_links_web2",
+      "rootUri": "file:///home/idelub/.pub-cache/hosted/pub.dartlang.org/uni_links_web2-0.1.0+2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "url_launcher",
       "rootUri": "file:///home/idelub/.pub-cache/hosted/pub.dartlang.org/url_launcher-6.0.3",
       "packageUri": "lib/",
@@ -644,7 +656,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2021-04-23T14:23:22.591849Z",
+  "generated": "2021-04-23T16:44:50.579477Z",
   "generator": "pub",
   "generatorVersion": "2.12.3"
 }

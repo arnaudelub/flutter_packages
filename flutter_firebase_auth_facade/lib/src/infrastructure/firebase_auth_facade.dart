@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_firebase_auth_facade/flutter_firebase_auth_facade.dart';
 import 'package:flutter_firebase_auth_facade/src/utils/constants.dart';
@@ -11,6 +10,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:sign_in_with_apple/sign_in_with_apple.dart' as apple;
 import 'package:url_launcher/url_launcher.dart';
+import 'package:uni_links2/uni_links.dart';
 
 class FirebaseAuthFacade implements IAuthFacade {
   /// This is the clientID in GitHub OAuth app
@@ -49,6 +49,9 @@ class FirebaseAuthFacade implements IAuthFacade {
     this.appleClientId = appleClientId;
     this.callbackUrl = callbackUrl;
   }
+
+  /// Deep link stream subscription
+  StreamSubscription? _streamSubscription;
 
   StreamController<Either<AuthFailure, Unit>> githubloginStreamController =
       StreamController<Either<AuthFailure, Unit>>();
@@ -207,15 +210,10 @@ class FirebaseAuthFacade implements IAuthFacade {
       } else {
         final url = 'https://github.com/login/oauth/authorize?client_id='
             '$githubClientId&scope=user:email';
-        FirebaseDynamicLinks.instance.onLink(
-            onSuccess: (PendingDynamicLinkData? dynamicLink) async {
-          var deepLink = dynamicLink?.link;
-          if (deepLink != null) {
-            final code = _getCodeFromGitHubLink(deepLink.path);
-            await _loginWithGitHub(code);
-          }
-        }, onError: (OnLinkErrorException e) async {
-          print(e);
+        await _streamSubscription?.cancel();
+        _streamSubscription = linkStream.listen((deeplink) async {
+          final code = _getCodeFromGitHubLink(deeplink!);
+          await _loginWithGitHub(code);
         });
         if (await canLaunch(url)) {
           print('Launchunbg url');
