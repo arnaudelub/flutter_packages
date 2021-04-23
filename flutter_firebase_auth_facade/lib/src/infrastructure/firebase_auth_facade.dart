@@ -50,8 +50,8 @@ class FirebaseAuthFacade implements IAuthFacade {
     this.callbackUrl = callbackUrl;
   }
 
-  String getCodeFromGitHubLink(String link) =>
-      link.substring(link.indexOf(RegExp('code=')) + 5);
+  StreamController<Either<AuthFailure, Unit>> githubloginStreamController =
+      StreamController<Either<AuthFailure, Unit>>();
 
   /// get the current signed in user,
   /// return null if unauthenticated
@@ -61,24 +61,6 @@ class FirebaseAuthFacade implements IAuthFacade {
   /// Checking if user is anonym or not
   @override
   bool isAnonymous() => _firebaseAuth.currentUser!.isAnonymous;
-
-  void loginWithGitHub(String code) async {
-    final response = await http.post(
-        Uri.parse('https://github.com/login/oauth/access_token'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: '{"client_id":"$githubClientId",'
-            '"client_secret":"$githubSecret","code":"$code"}');
-    final body = response.body;
-    final Map<String, dynamic> bodymap = json.decode(body);
-    final token = bodymap['access_token'];
-    final AuthCredential credential = GithubAuthProvider.credential(
-      token,
-    );
-    await _firebaseAuth.signInWithCredential(credential);
-  }
 
   ///Register with Email and password
   /// return [Future<Either<AuthFailure, Unit>>]
@@ -227,20 +209,21 @@ class FirebaseAuthFacade implements IAuthFacade {
             '$githubClientId&scope=user:email';
         FirebaseDynamicLinks.instance.onLink(
             onSuccess: (PendingDynamicLinkData? dynamicLink) async {
-              var deepLink = dynamicLink?.link;
-              if (deepLink != null) {
-                final code = getCodeFromGitHubLink(deepLink.path);
-                loginWithGitHub(code);
-              }
-            },
-            onError: (OnLinkErrorException e) async {});
+          var deepLink = dynamicLink?.link;
+          if (deepLink != null) {
+            final code = _getCodeFromGitHubLink(deepLink.path);
+            await _loginWithGitHub(code);
+          }
+        }, onError: (OnLinkErrorException e) async {
+          print(e);
+        });
         if (await canLaunch(url)) {
           print('Launchunbg url');
           await launch(url);
         } else {
           return left(const AuthFailure.serverError());
         }
-        return right(unit);
+        return githubloginStreamController.stream.first;
       }
     } catch (e) {
       print(e);
@@ -281,5 +264,46 @@ class FirebaseAuthFacade implements IAuthFacade {
   @override
   Stream<User?> userState() async* {
     yield* _firebaseAuth.authStateChanges();
+  }
+
+  String _getCodeFromGitHubLink(String link) =>
+      link.substring(link.indexOf(RegExp('code=')) + 5);
+
+  Future<void> _loginWithGitHub(String code) async {
+    try {
+      final response = await http.post(
+          Uri.parse('https://github.com/login/oauth/access_token'),
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: '{"client_id":"$githubClientId",'
+              '"client_secret":"$githubSecret","code":"$code"}');
+      final body = response.body;
+      final Map<String, dynamic> bodymap = json.decode(body);
+      final token = bodymap['access_token'];
+      final AuthCredential credential = GithubAuthProvider.credential(
+        token,
+      );
+      await _firebaseAuth.signInWithCredential(credential);
+      githubloginStreamController.add(right(unit));
+    } on FirebaseAuthException catch (e) {
+      if (e.code == kFirebaseCodeEmailAlreadyInUse) {
+        githubloginStreamController
+            .add(const Left(AuthFailure.emailAlreadyInUse()));
+      } else if (e.code == kFirebaseCodeInvalidEmail) {
+        githubloginStreamController.add(const Left(AuthFailure.invalidEmail()));
+      } else if (e.code == kFirebaseCodeWeakPassword) {
+        githubloginStreamController.add(const Left(AuthFailure.weakPassword()));
+      } else if (e.code == kFirebaseCodeOperationNotAllowed) {
+        githubloginStreamController
+            .add(const Left(AuthFailure.operationNotAllowed()));
+      } else if (e.code == kFirebasecodeInvalidCredentials) {
+        githubloginStreamController
+            .add(const Left(AuthFailure.invalidCredentials()));
+      } else {
+        githubloginStreamController.add(const Left(AuthFailure.serverError()));
+      }
+    }
   }
 }
