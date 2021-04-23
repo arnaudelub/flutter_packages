@@ -63,7 +63,6 @@ class FirebaseAuthFacade implements IAuthFacade {
   bool isAnonymous() => _firebaseAuth.currentUser!.isAnonymous;
 
   void loginWithGitHub(String code) async {
-    //Step 4
     final response = await http.post(
         Uri.parse('https://github.com/login/oauth/access_token'),
         headers: {
@@ -82,6 +81,7 @@ class FirebaseAuthFacade implements IAuthFacade {
   }
 
   ///Register with Email and password
+  /// return [Future<Either<AuthFailure, Unit>>]
   @override
   Future<Either<AuthFailure, Unit>> registerWithEmailAndPassword(
       {required String email, required String password}) async {
@@ -126,6 +126,7 @@ class FirebaseAuthFacade implements IAuthFacade {
       Future.wait([_googleSignIn.signOut(), _firebaseAuth.signOut()]);
 
   /// Sign in as anonymous
+  /// return [Future<Either<AuthFailure, Unit>>]
   @override
   Future<Either<AuthFailure, Unit>> signInWithAnon() async {
     try {
@@ -140,31 +141,39 @@ class FirebaseAuthFacade implements IAuthFacade {
   }
 
   /// Sign in with Apple
+  /// return [Future<Either<AuthFailure, Unit>>]
   @override
   Future<Either<AuthFailure, Unit>> signInWithApple() async {
     try {
-      final credential = await apple.SignInWithApple.getAppleIDCredential(
-        scopes: [
-          apple.AppleIDAuthorizationScopes.email,
-          apple.AppleIDAuthorizationScopes.fullName,
-        ],
-        webAuthenticationOptions: apple.WebAuthenticationOptions(
-          clientId: appleClientId,
-          redirectUri: Uri.parse(callbackUrl),
-        ),
-      );
       final oAuthProvider = OAuthProvider(appleProvider);
-      final newCredentials = oAuthProvider.credential(
-        idToken: credential.identityToken,
-        accessToken: credential.authorizationCode,
-      );
-      final previousUser = getSignedInUser();
-      if (previousUser != null) {
-        await previousUser.linkWithCredential(newCredentials);
+      if (kIsWeb) {
+        final result = await _firebaseAuth.signInWithPopup(oAuthProvider);
+        var credential = result.credential;
+        await _firebaseAuth.signInWithCredential(credential!);
+        return right(unit);
       } else {
-        await _firebaseAuth.signInWithCredential(newCredentials);
+        final credential = await apple.SignInWithApple.getAppleIDCredential(
+          scopes: [
+            apple.AppleIDAuthorizationScopes.email,
+            apple.AppleIDAuthorizationScopes.fullName,
+          ],
+          webAuthenticationOptions: apple.WebAuthenticationOptions(
+            clientId: appleClientId,
+            redirectUri: Uri.parse(callbackUrl),
+          ),
+        );
+        final newCredentials = oAuthProvider.credential(
+          idToken: credential.identityToken,
+          accessToken: credential.authorizationCode,
+        );
+        final previousUser = getSignedInUser();
+        if (previousUser != null) {
+          await previousUser.linkWithCredential(newCredentials);
+        } else {
+          await _firebaseAuth.signInWithCredential(newCredentials);
+        }
+        return right(unit);
       }
-      return right(unit);
     } on apple.SignInWithAppleException catch (e) {
       print(e);
       if (e is apple.SignInWithAppleNotSupportedException) {
@@ -180,6 +189,7 @@ class FirebaseAuthFacade implements IAuthFacade {
   }
 
   /// Sign in with user and password
+  /// return [Future<Either<AuthFailure, Unit>>]
   @override
   Future<Either<AuthFailure, Unit>> signInWithEmailAndPassword(
       {required String email, required String password}) async {
@@ -199,6 +209,7 @@ class FirebaseAuthFacade implements IAuthFacade {
   }
 
   /// Sign in with GitHub
+  /// return [Future<Either<AuthFailure, Unit>>]
   @override
   Future<Either<AuthFailure, Unit>> signInWithGitHub() async {
     try {
@@ -209,12 +220,7 @@ class FirebaseAuthFacade implements IAuthFacade {
       if (kIsWeb) {
         final result = await _firebaseAuth.signInWithPopup(provider);
         var credential = result.credential;
-        var token = credential!.token;
-        final AuthCredential firebasecredential = GithubAuthProvider.credential(
-          '${credential.token}',
-        );
-        await _firebaseAuth.signInWithCredential(credential);
-
+        await _firebaseAuth.signInWithCredential(credential!);
         return right(unit);
       } else {
         final url = 'https://github.com/login/oauth/authorize?client_id='
@@ -243,6 +249,7 @@ class FirebaseAuthFacade implements IAuthFacade {
   }
 
   /// Sign in with google
+  /// return [Future<Either<AuthFailure, Unit>>]
   @override
   Future<Either<AuthFailure, Unit>> signInWithGoogle() async {
     try {

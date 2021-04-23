@@ -1,3 +1,8 @@
+## [0.0.5-nullsafety.1]
+
+* Improving README
+* Adding web support for apple signin
+
 ## [0.0.4-nullsafety.1]
 
 * Fixing README error
