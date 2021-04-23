@@ -1,4 +1,4 @@
-import 'package:flutter_firebase_auth_facade/auth_facade.dart';
+import 'package:flutter_firebase_auth_facade/flutter_firebase_auth_facade.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart' as mock;
