@@ -1,4 +1,4 @@
-# csv_picker_button
+# Flutter_Firebase_Auth_Facade
 
 A package to add Firebase authentication methods to your app
 
