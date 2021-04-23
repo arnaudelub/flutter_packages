@@ -1,4 +1,4 @@
-## [0.0.2-nullsafety.1] - 2021-04-23.
+## [0.0.2]## [0.0.2-nullsafety.1] - 2021-04-23.
 
 * Adding license and upgrading dependencies
 
