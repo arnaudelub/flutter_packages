@@ -1,3 +1,7 @@
+## [0.0.7-nullsafety.1]
+
+* Fixing Github oauth
+
 ## [0.0.6-nullsafety.1]
 
 * Improving README
