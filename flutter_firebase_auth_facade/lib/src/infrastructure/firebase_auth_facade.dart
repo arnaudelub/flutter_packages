@@ -223,7 +223,8 @@ class FirebaseAuthFacade implements IAuthFacade {
         } else {
           return left(const AuthFailure.serverError());
         }
-        return githubloginStreamController.stream.first;
+        final failureOrSuccess = await githubloginStreamController.stream.first;
+        return failureOrSuccess;
       }
     } catch (e) {
       print(e);
