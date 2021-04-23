@@ -101,6 +101,30 @@ abstract class PackagesInjectableModule {
 }
 ```
 
+The sign in methods are returning a Future<Either<AuthFailure, unit>>, so you'll have to
+use Dartz and fold the result like this:
+
+```dart
+final failureOrSuccess = _authFacade.signInWithGitHub();
+failureOrSuccess.fold(
+    (failure) => print(failure), // Handle the failure here
+    (success) => print("User logged in")// handle the user here
+);
+
+```
+
+#  Handle error
+
+The AuthFailure class use Freezed with code generation  so you can use Unions/sealed class feature:
+
+```dart
+    failure.map(
+
+            );
+    failure.maybeMap();
+    failure.when();
+    //etc...
+```
 # Dependencies
 
 - [flutterFire](https://firebase.flutter.dev/)
