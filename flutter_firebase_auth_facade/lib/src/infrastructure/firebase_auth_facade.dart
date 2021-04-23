@@ -287,6 +287,7 @@ class FirebaseAuthFacade implements IAuthFacade {
         token,
       );
       await _firebaseAuth.signInWithCredential(credential);
+      print(getSignedInUser());
       githubloginStreamController.add(right(unit));
     } on FirebaseAuthException catch (e) {
       if (e.code == kFirebaseCodeEmailAlreadyInUse) {
