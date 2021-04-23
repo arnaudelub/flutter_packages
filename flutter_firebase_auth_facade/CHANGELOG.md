@@ -1,3 +1,7 @@
+## [0.0.4-nullsafety.1]
+
+* Fixing README error
+
 ## [0.0.3-nullsafety.1]
 
 * Switching uni_links to FirebaseDynamicLinks plugin

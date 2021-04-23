@@ -45,7 +45,7 @@ add to your AndroidManifest.xml:
   <category android:name="android.intent.category.BROWSABLE" />
   <data
     android:scheme="https"
-    android:host="https://[your firebase project name].firebaseapp.com/__/auth/handler" />
+    android:host="[your firebase project name].firebaseapp.com" />
 </intent-filter>
  ```
 
@@ -60,7 +60,7 @@ Add to your info.plist
 <key>CFBundleTypeRole</key>
 <string>Editor</string>
 <key>CFBundleURLName</key>
-<string>https://[your firebase project name].firebaseapp.com/__/auth/handler</string>
+<string>[your firebase project name].firebaseapp.com</string>
 <key>CFBundleURLSchemes</key>
 <array>
 <string>https</string>
