@@ -32,6 +32,43 @@ import 'package:flutter_firebase_auth_facade/flutter_firebase_auth_facade.dart';
 ```
 
 ### 4. use it
+
+### Prepare for Android and ios:
+ * Android
+
+add to your AndroidManifest.xml:
+
+ ```xml
+ <intent-filter>
+  <action android:name="android.intent.action.VIEW" />
+  <category android:name="android.intent.category.DEFAULT" />
+  <category android:name="android.intent.category.BROWSABLE" />
+  <data
+    android:scheme="https"
+    android:host="https://[your firebase project name].firebaseapp.com/__/auth/handler" />
+</intent-filter>
+ ```
+
+ * iOS
+
+Add to your info.plist
+
+ ```
+<key>CFBundleURLTypes</key>
+<array>
+<dict>
+<key>CFBundleTypeRole</key>
+<string>Editor</string>
+<key>CFBundleURLName</key>
+<string>https://[your firebase project name].firebaseapp.com/__/auth/handler</string>
+<key>CFBundleURLSchemes</key>
+<array>
+<string>https</string>
+</array>
+</dict>
+</array>
+ ```
+
 First instanciate FirebaseAuthFacade and inject GoogleSignIn and FirebaseAuth.
 Then you have to call the method call() on the instance => authFacade()
 callbackUrl is required, you can find it in your firebase panel in the github sign in method or apple sign in method.

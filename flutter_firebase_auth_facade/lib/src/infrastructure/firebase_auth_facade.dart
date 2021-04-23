@@ -1,22 +1,18 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter_firebase_auth_facade/flutter_firebase_auth_facade.dart';
-import 'package:flutter_firebase_auth_facade/src/utils/constants.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_firebase_auth_facade/flutter_firebase_auth_facade.dart';
+import 'package:flutter_firebase_auth_facade/src/utils/constants.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart' as apple;
-import 'package:uni_links2/uni_links.dart';
 import 'package:http/http.dart' as http;
+import 'package:sign_in_with_apple/sign_in_with_apple.dart' as apple;
+import 'package:url_launcher/url_launcher.dart';
 
 class FirebaseAuthFacade implements IAuthFacade {
-  FirebaseAuthFacade(
-    this._firebaseAuth,
-    this._googleSignIn,
-  );
-
   /// This is the clientID in GitHub OAuth app
   late String githubClientId;
 
@@ -37,8 +33,10 @@ class FirebaseAuthFacade implements IAuthFacade {
 
   final GoogleSignIn _googleSignIn;
 
-  /// Subscribing to the github deeplink
-  StreamSubscription? _githubStreamSubscription;
+  FirebaseAuthFacade(
+    this._firebaseAuth,
+    this._googleSignIn,
+  );
 
   void call({
     required callbackUrl,
@@ -46,11 +44,14 @@ class FirebaseAuthFacade implements IAuthFacade {
     githubSecret = '',
     appleClientId = '',
   }) {
-    githubSecret = githubSecret;
-    githubClientId = githubClientId;
-    appleClientId = appleClientId;
-    callbackUrl = callbackUrl;
+    this.githubSecret = githubSecret;
+    this.githubClientId = githubClientId;
+    this.appleClientId = appleClientId;
+    this.callbackUrl = callbackUrl;
   }
+
+  String getCodeFromGitHubLink(String link) =>
+      link.substring(link.indexOf(RegExp('code=')) + 5);
 
   /// get the current signed in user,
   /// return null if unauthenticated
@@ -60,6 +61,25 @@ class FirebaseAuthFacade implements IAuthFacade {
   /// Checking if user is anonym or not
   @override
   bool isAnonymous() => _firebaseAuth.currentUser!.isAnonymous;
+
+  void loginWithGitHub(String code) async {
+    //Step 4
+    final response = await http.post(
+        Uri.parse('https://github.com/login/oauth/access_token'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: '{"client_id":"$githubClientId",'
+            '"client_secret":"$githubSecret","code":"$code"}');
+    final body = response.body;
+    final Map<String, dynamic> bodymap = json.decode(body);
+    final token = bodymap['access_token'];
+    final AuthCredential credential = GithubAuthProvider.credential(
+      token,
+    );
+    await _firebaseAuth.signInWithCredential(credential);
+  }
 
   ///Register with Email and password
   @override
@@ -182,48 +202,44 @@ class FirebaseAuthFacade implements IAuthFacade {
   @override
   Future<Either<AuthFailure, Unit>> signInWithGitHub() async {
     try {
-      final url = 'https://github.com/login/oauth/authorize?client_id='
-          '$githubClientId&scope=user:email';
-      await _githubStreamSubscription?.cancel();
-      _githubStreamSubscription = linkStream.listen((String? link) {
-        final code = getCodeFromGitHubLink(link!);
-        loginWithGitHub(code);
-      });
+      var provider = GithubAuthProvider()
+        ..addScope('repo')
+        ..setCustomParameters({'allow_signup': false});
 
-      if (await canLaunch(url)) {
-        print('Launchunbg url');
-        await launch(url);
+      if (kIsWeb) {
+        final result = await _firebaseAuth.signInWithPopup(provider);
+        var credential = result.credential;
+        var token = credential!.token;
+        final AuthCredential firebasecredential = GithubAuthProvider.credential(
+          '${credential.token}',
+        );
+        await _firebaseAuth.signInWithCredential(credential);
+
+        return right(unit);
       } else {
-        return left(const AuthFailure.serverError());
+        final url = 'https://github.com/login/oauth/authorize?client_id='
+            '$githubClientId&scope=user:email';
+        FirebaseDynamicLinks.instance.onLink(
+            onSuccess: (PendingDynamicLinkData? dynamicLink) async {
+              var deepLink = dynamicLink?.link;
+              if (deepLink != null) {
+                final code = getCodeFromGitHubLink(deepLink.path);
+                loginWithGitHub(code);
+              }
+            },
+            onError: (OnLinkErrorException e) async {});
+        if (await canLaunch(url)) {
+          print('Launchunbg url');
+          await launch(url);
+        } else {
+          return left(const AuthFailure.serverError());
+        }
+        return right(unit);
       }
-      return right(unit);
     } catch (e) {
       print(e);
       return left(const AuthFailure.serverError());
     }
-  }
-
-  String getCodeFromGitHubLink(String link) =>
-      link.substring(link.indexOf(RegExp('code=')) + 5);
-
-  void loginWithGitHub(String code) async {
-    //Step 4
-    await _githubStreamSubscription?.cancel();
-    final response = await http.post(
-        Uri.parse('https://github.com/login/oauth/access_token'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: '{"client_id":"$githubClientId",'
-            '"client_secret":"$githubSecret","code":"$code"}');
-    final body = response.body;
-    final Map<String, dynamic> bodymap = json.decode(body);
-    final token = bodymap['access_token'];
-    final AuthCredential credential = GithubAuthProvider.credential(
-      token,
-    );
-    await _firebaseAuth.signInWithCredential(credential);
   }
 
   /// Sign in with google

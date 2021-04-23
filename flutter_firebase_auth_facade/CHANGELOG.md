@@ -1,4 +1,10 @@
-## [0.0.2]## [0.0.2-nullsafety.1] - 2021-04-23.
+## [0.0.3-nullsafety.1]
+
+* Switching uni_links to FirebaseDynamicLinks plugin
+* Adding web support for github auth
+* Fixing issue in call() method
+
+## [0.0.2-nullsafety.1] - 2021-04-23.
 
 * Adding license and upgrading dependencies
 
