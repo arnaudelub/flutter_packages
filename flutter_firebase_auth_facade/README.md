@@ -33,6 +33,23 @@ import 'package:flutter_firebase_auth_facade/flutter_firebase_auth_facade.dart';
 
 ### 4. use it
 
+### Methods available:
+| Method | Status |
+|--------|:------:|
+| `CurrentUser` | V |
+| `registerWithEmailAndPassword` | V |
+| `signInWithEmailAndPassword` | V |
+| `SignInWithGoogle` | V |
+| `SignInWithApple` | V |
+| `SignInAnonym` | V |
+| `SigninWithGitHub` | V |
+| `SignInWithFacebook` | *X* |
+| `SignInWithInstagram` | *X* |
+| `SignOut` | V |
+| `userState` | V |
+| `resetPassword` | V |
+
+
 ### Prepare for Android and ios:
  * Android
 
