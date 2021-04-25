@@ -13,7 +13,7 @@ dependencies:
   flutter_firebase_auth_facade: latest_version
 ```
 
-### 2. Install it
+## 2. Install it
 
 You can install packages from the command line:
 
@@ -23,7 +23,7 @@ with Flutter:
 $ flutter pub get
 ```
 
-### 3. Import it
+## 3. Import it
 
 Now in your Dart code, you can use:
 
@@ -31,7 +31,7 @@ Now in your Dart code, you can use:
 import 'package:flutter_firebase_auth_facade/flutter_firebase_auth_facade.dart';
 ```
 
-### 4. use it
+## 4. use it
 
 ### Methods available:
 | Method | Status |
@@ -118,6 +118,13 @@ abstract class PackagesInjectableModule {
 }
 ```
 
+### Real life example
+
+* You can find a real life app open source being build here:
+[flutterence](https://github.com/arnaudelub/flutterence)
+
+### Simple example
+
 The sign in methods are returning a Future<Either<AuthFailure, unit>>, so you'll have to
 use Dartz and fold the result like this:
 
@@ -130,7 +137,7 @@ failureOrSuccess.fold(
 
 ```
 
-#  Handle error
+##  Handle error
 
 The AuthFailure class use Freezed with code generation  so you can use Unions/sealed class feature:
 
