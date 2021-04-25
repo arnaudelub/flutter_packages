@@ -19,15 +19,15 @@ jobs:
         working-directory: ./csv_picker_button
         run: flutter format --set-exit-if-changed lib test
 
-      - name: Analyze
-        working-directory: ./csv_picker_button
-        run: flutter analyze lib test
+        #- name: Analyze
+        #working-directory: ./csv_picker_button
+        #run: flutter analyze lib test
 
       - name: Run tests
         working-directory: ./csv_picker_button
         run: flutter test --no-pub --coverage --test-randomize-ordering-seed random
 
-      - name: Check Code Coverage
-        uses: VeryGoodOpenSource/very_good_coverage@v1.1.1
-        with:
-            min_coverage: 80
+        #- name: Check Code Coverage
+        #uses: VeryGoodOpenSource/very_good_coverage@v1.1.1
+        #with:
+        #    min_coverage: 80

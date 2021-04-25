@@ -3,9 +3,7 @@ import 'package:example/injections.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_firebase_auth_facade/flutter_firebase_auth_facade.dart';
 import 'package:injectable/injectable.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
