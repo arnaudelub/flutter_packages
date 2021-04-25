@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 class CsvButton extends StatelessWidget {
   final ButtonStyle? buttonStyle;
   final CsvConfiguration? csvConfiguration;
+  final Function()? onDone;
   final Function(String data)? onStringReceived;
   final Function(Map<String, dynamic> data)? onJsonReceived;
   final Widget child;
@@ -21,6 +22,7 @@ class CsvButton extends StatelessWidget {
       this.buttonStyle,
       this.csvConfiguration,
       required this.child,
+      this.onDone,
       this.onJsonReceived,
       this.onStringReceived})
       : assert(
@@ -55,6 +57,7 @@ class CsvButton extends StatelessWidget {
     _csvStreamSubscription = _repository
         .getCsvStream()
         .listen((data) => _onFileReceived(data, _csvRepository, config));
+    _csvStreamSubscription.onDone(() => onDone!());
   }
 
   _onFileReceived(Map<String, dynamic> data,
