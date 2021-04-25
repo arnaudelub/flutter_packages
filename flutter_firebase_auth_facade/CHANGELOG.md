@@ -1,3 +1,7 @@
+## [0.0.10-nullsafety.1]
+
+* Adding missing null check on streamController
+
 ## [0.0.9-nullsafety.1]
 
 * Closing the streamController otherwise getting stream already listened when relogin with github

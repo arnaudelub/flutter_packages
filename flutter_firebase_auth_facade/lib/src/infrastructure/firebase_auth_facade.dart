@@ -290,24 +290,26 @@ class FirebaseAuthFacade implements IAuthFacade {
       );
       await _firebaseAuth.signInWithCredential(credential);
       print(getSignedInUser());
-      githubloginStreamController.add(right(unit));
+      githubloginStreamController!.add(right(unit));
       await _streamSubscription?.cancel();
     } on FirebaseAuthException catch (e) {
       if (e.code == kFirebaseCodeEmailAlreadyInUse) {
-        githubloginStreamController
+        githubloginStreamController!
             .add(const Left(AuthFailure.emailAlreadyInUse()));
       } else if (e.code == kFirebaseCodeInvalidEmail) {
-        githubloginStreamController.add(const Left(AuthFailure.invalidEmail()));
+        githubloginStreamController!
+            .add(const Left(AuthFailure.invalidEmail()));
       } else if (e.code == kFirebaseCodeWeakPassword) {
-        githubloginStreamController.add(const Left(AuthFailure.weakPassword()));
+        githubloginStreamController!
+            .add(const Left(AuthFailure.weakPassword()));
       } else if (e.code == kFirebaseCodeOperationNotAllowed) {
-        githubloginStreamController
+        githubloginStreamController!
             .add(const Left(AuthFailure.operationNotAllowed()));
       } else if (e.code == kFirebasecodeInvalidCredentials) {
-        githubloginStreamController
+        githubloginStreamController!
             .add(const Left(AuthFailure.invalidCredentials()));
       } else {
-        githubloginStreamController.add(const Left(AuthFailure.serverError()));
+        githubloginStreamController!.add(const Left(AuthFailure.serverError()));
       }
     }
   }
