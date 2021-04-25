@@ -1,3 +1,7 @@
+## [0.0.8-nullsafety.1]
+
+* Adding streamSubscription?.cancel() for github login
+
 ## [0.0.7-nullsafety.1]
 
 * Fixing Github oauth

@@ -13,6 +13,11 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:uni_links2/uni_links.dart';
 
 class FirebaseAuthFacade implements IAuthFacade {
+  FirebaseAuthFacade(
+    this._firebaseAuth,
+    this._googleSignIn,
+  );
+
   /// This is the clientID in GitHub OAuth app
   late String githubClientId;
 
@@ -32,11 +37,6 @@ class FirebaseAuthFacade implements IAuthFacade {
   /// DI of the GoogleSignIn plugin
 
   final GoogleSignIn _googleSignIn;
-
-  FirebaseAuthFacade(
-    this._firebaseAuth,
-    this._googleSignIn,
-  );
 
   void call({
     required callbackUrl,
@@ -208,8 +208,8 @@ class FirebaseAuthFacade implements IAuthFacade {
         await _firebaseAuth.signInWithCredential(credential!);
         return right(unit);
       } else {
-        final url = 'https://github.com/login/oauth/authorize?client_id='
-            '$githubClientId&scope=user:email';
+        final url = '$githubAuthUrl'
+            '$githubClientId&$githubScope';
         await _streamSubscription?.cancel();
         _streamSubscription = linkStream.listen((deeplink) async {
           final code = _getCodeFromGitHubLink(deeplink!);
@@ -288,6 +288,7 @@ class FirebaseAuthFacade implements IAuthFacade {
       await _firebaseAuth.signInWithCredential(credential);
       print(getSignedInUser());
       githubloginStreamController.add(right(unit));
+      await _streamSubscription?.cancel();
     } on FirebaseAuthException catch (e) {
       if (e.code == kFirebaseCodeEmailAlreadyInUse) {
         githubloginStreamController
