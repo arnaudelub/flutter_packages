@@ -1,3 +1,7 @@
+## [0.0.9-nullsafety.1]
+
+* Closing the streamController otherwise getting stream already listened when relogin with github
+
 ## [0.0.8-nullsafety.1]
 
 * Adding streamSubscription?.cancel() for github login

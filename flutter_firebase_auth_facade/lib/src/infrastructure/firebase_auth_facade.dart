@@ -53,8 +53,7 @@ class FirebaseAuthFacade implements IAuthFacade {
   /// Deep link stream subscription
   StreamSubscription? _streamSubscription;
 
-  StreamController<Either<AuthFailure, Unit>> githubloginStreamController =
-      StreamController<Either<AuthFailure, Unit>>();
+  StreamController<Either<AuthFailure, Unit>>? githubloginStreamController;
 
   /// get the current signed in user,
   /// return null if unauthenticated
@@ -198,6 +197,8 @@ class FirebaseAuthFacade implements IAuthFacade {
   @override
   Future<Either<AuthFailure, Unit>> signInWithGitHub() async {
     try {
+      githubloginStreamController =
+          StreamController<Either<AuthFailure, Unit>>();
       var provider = GithubAuthProvider()
         ..addScope('repo')
         ..setCustomParameters({'allow_signup': false});
@@ -221,7 +222,9 @@ class FirebaseAuthFacade implements IAuthFacade {
         } else {
           return left(const AuthFailure.serverError());
         }
-        final failureOrSuccess = await githubloginStreamController.stream.first;
+        final failureOrSuccess =
+            await githubloginStreamController!.stream.first;
+        await githubloginStreamController!.close();
         print(failureOrSuccess);
         return failureOrSuccess;
       }
