@@ -1,3 +1,7 @@
+## [0.0.7] - 25.04.2021.
+
+* Adding handler Version, thanks to @detlefvolmer
+
 ## [0.0.6] - 06.04.2021.
 
 * Fixing CHANGLOG  markdown
