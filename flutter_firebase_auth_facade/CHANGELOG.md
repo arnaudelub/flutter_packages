@@ -1,3 +1,7 @@
+## [0.0.11-nullsafety.1] - 2021-04-31
+
+* Fixing typo in kFirebaseCode constants error String
+
 ## [0.0.10-nullsafety.1]
 
 * Adding missing null check on streamController

@@ -52,6 +52,7 @@ dev_dependencies:
   freezed: ^0.14.1+2
   injectable_generator: ^1.2.2
   json_serializable: ^4.1.1
+  very_good_analysis: ^2.0.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

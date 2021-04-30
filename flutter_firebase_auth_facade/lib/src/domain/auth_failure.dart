@@ -2,11 +2,11 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'auth_failure.freezed.dart';
 
-final kFirebaseCodeEmailAlreadyInUse = 'email-already-in-use';
-final kFirebaseCodeInvalidEmail = 'invalid-email';
-final kFirebaseCodeWeakPassword = 'weak-password';
-final kFirebaseCodeOperationNotAllowed = 'operation=not=allowed';
-final kFirebasecodeInvalidCredentials = 'invalid-credential';
+const kFirebaseCodeEmailAlreadyInUse = 'email-already-in-use';
+const kFirebaseCodeInvalidEmail = 'invalid-email';
+const kFirebaseCodeWeakPassword = 'weak-password';
+const kFirebaseCodeOperationNotAllowed = 'operation-not-allowed';
+const kFirebaseCodeInvalidCredentials = 'invalid-credential';
 
 @freezed
 class AuthFailure with _$AuthFailure {
