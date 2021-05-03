@@ -1,3 +1,7 @@
+## [0.0.12-nullsafety.1] - 2021-04-31
+
+* Fixing compiling error due to const name change
+
 ## [0.0.11-nullsafety.1] - 2021-04-31
 
 * Fixing typo in kFirebaseCode constants error String

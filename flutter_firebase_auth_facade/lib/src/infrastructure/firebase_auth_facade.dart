@@ -305,7 +305,7 @@ class FirebaseAuthFacade implements IAuthFacade {
       } else if (e.code == kFirebaseCodeOperationNotAllowed) {
         githubloginStreamController!
             .add(const Left(AuthFailure.operationNotAllowed()));
-      } else if (e.code == kFirebasecodeInvalidCredentials) {
+      } else if (e.code == kFirebaseCodeInvalidCredentials) {
         githubloginStreamController!
             .add(const Left(AuthFailure.invalidCredentials()));
       } else {
